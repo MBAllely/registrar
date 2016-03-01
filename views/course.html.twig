@@ -6,6 +6,23 @@
     <body>
         <h2>{{ course.getCourseName }}</h2>
         <h3>{{ course.getCourseNum }}</h3>
+        <h3>Enrolled Students:</h3>
+        <ul>
+            {% for course_student in course_students %}
+                <li><a href="/students/{{ course_student.getId }}">{{ course_student.getName }}</a></li>
+            {% endfor %}
+        </ul>
+        <form action="/{{ course.getId }}/add_student" method="post">
+            <input type="hidden" name="course_name" value="{{ course.getId }}">
+            <label for="">Select a student</label>
+            <select name="id" type="text">
+                {% for student in students %}
+                    <option value="{{ student.getId }}"> {{ student.getName }} </option>
+                {% endfor %}
+            </select>
+            <button type="submit">Add Student</button>
+        </form>
+        <!--ADD EDIT COURSE FEATURE-->
         <form action='/{{ course.getId }}/delete_course' method='post'>
             <input name="_method" type="hidden" value="delete">
             <button type='submit'>Delete Course</button>

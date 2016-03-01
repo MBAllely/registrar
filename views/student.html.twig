@@ -6,10 +6,21 @@
     <body>
         <h2>Student Name: {{ student.getName }}</h2>
         <h3>Enrollment Date: {{ student.getDate }}</h3>
+
+        {% if courses is not empty %}
+            <ul>
+            {% for course in courses %}
+                <li><a href="/courses/{{ course.getId }}">{{ course.getCourseName}}</a></li>
+            {% endfor %}
+        {% else %}
+            <p>This student is not enrolled in any courses!</p>
+        {% endif %}
+
         <form action='/{{ student.getId }}/delete_student' method='post'>
             <input name="_method" type="hidden" value="delete">
             <button type='submit'>Delete Student</button>
         </form>
+        
         <a href="/">Home</a>
     </body>
 </html>

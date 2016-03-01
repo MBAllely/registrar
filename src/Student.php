@@ -69,6 +69,12 @@ class Student
         $GLOBALS['DB']->exec("DELETE FROM students;");
     }
 
+    function deleteOneStudent()
+    {
+        $GLOBALS['DB']->exec("DELETE FROM students WHERE id = {$this->getId()};");
+        $GLOBALS['DB']->exec("DELETE FROM enrollment WHERE student_id = {$this->getId()};");
+    }
+
 
 }
 ?>

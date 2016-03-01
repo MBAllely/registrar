@@ -94,5 +94,28 @@
             // Assert
             $this->assertEquals($new_name, $result);
         }
+
+        function test_deleteOneStudent()
+        {
+            // Arrange
+            $name = "Marika";
+            $id = null;
+            $date = "1999-01-01";
+            $test_student = new Student($name, $date, $id);
+            $test_student->save();
+
+            $name2 = "Mary";
+            $id2 = null;
+            $date2 = "1969-01-01";
+            $test_student2 = new Student($name2, $date2, $id2);
+            $test_student2->save();
+
+            // Act
+            $test_student->deleteOneStudent();
+            $result = Student::getAll();
+
+            // Assert
+            $this->assertEquals([$test_student2], $result);
+        }
     }
  ?>

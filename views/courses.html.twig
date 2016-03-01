@@ -1,10 +1,24 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <title></title>
+        {% include '/includes/head.html.twig' %}
     </head>
     <body>
-<p>COURSES</p>
+        {% if courses is not empty %}
+        <p>Here are the available courses</p>
+            {% for course in courses %}
+                <h4><a href="/courses/{{ course.getId }}">{{ course.getCourseName }}</a></h4>
+            {% endfor %}
+        {% else %}
+            <p>There are no courses yet!</p>
+        {% endif %}
+
+        <form action="/courses" method="post">
+            <label for="course_name">Course name: </label>
+            <input type="text" name="course_name">
+            <label for="course_num">Course number: </label>
+            <input type="text" name="course_num">
+            <button type="submit">Add course</button>
+        </form>
     </body>
 </html>

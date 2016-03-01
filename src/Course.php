@@ -72,6 +72,31 @@
             $this->setCourseName($new_course_name);
         }
 
+        function addStudent($student)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO enrollment (course_id, student_id) VALUES ({$this->getId()}, {$student->getId()});");
+        }
+
+        function getStudents()
+        {
+            $query = $GLOBALS['DB']->query("SELECT student_id FROM enrollment WHERE course_id = {$this->getId()};");
+            $student_id = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $students = array();
+            foreach($student_id as $id) {
+                $student_id = $id['student_id'];
+                $result = $GLOBALS['DB']->query("SELECT * FROM students WHERE id = {$student_id};");
+                $returned_student = $result->fetchAll(PDO::FETCH_ASSOC);
+
+                $name = $returned_student[0]['name'];
+                $date = $returned_student[0]['date'];
+                $id = $returned_student[0]['id'];
+                $new_student = new Student($name, $date, $id);
+                array_push($students, $new_student);
+            }
+            return $students;
+        }
+
         static function deleteAll()
         {
             $GLOBALS['DB']->exec("DELETE FROM courses;");

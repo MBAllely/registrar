@@ -7,6 +7,7 @@
 
 
     require_once __DIR__ . '/../src/Course.php';
+    require_once __DIR__ . '/../src/Student.php';
 
     $server = 'mysql:host=localhost;dbcourse_name=registrar_test';
     $usercourse_name = 'root';
@@ -18,6 +19,7 @@
         protected function tearDown()
         {
             Course::deleteAll();
+            Student::deleteAll();
         }
 
         function test_getInfo()
@@ -135,6 +137,48 @@
         $result = Course::find($test_course->getId());
 
         $this->assertEquals($test_course, $result);
+        }
+
+        function test_addStudent()
+        {
+            $course_name = "Intro to Russian Lit";
+            $id = null;
+            $course_num = "LIT105";
+            $test_course = new Course($course_name, $course_num, $id);
+            $test_course->save();
+
+            $name = "Marika";
+            $date = "1999-01-01";
+            $test_student = new Student($name, $date, $id);
+            $test_student->save();
+
+            $test_course->addStudent($test_student);
+
+            $this->assertEquals($test_course->getStudents(), [$test_student]);
+        }
+
+        function test_getStudents()
+        {
+            $course_name = "Intro to Russian Lit";
+            $id = null;
+            $course_num = "LIT105";
+            $test_course = new Course($course_name, $course_num, $id);
+            $test_course->save();
+
+            $name = "Marika";
+            $date = "1999-01-01";
+            $test_student = new Student($name, $date, $id);
+            $test_student->save();
+
+            $name2 = "Mary";
+            $date2 = "1969-01-01";
+            $test_student2 = new Student($name2, $date2, $id);
+            $test_student2->save();
+
+            $test_course->addStudent($test_student);
+            $test_course->addStudent($test_student2);
+
+            $this->assertEquals($test_course->getStudents(), [$test_student, $test_student2]);
         }
     }
  ?>

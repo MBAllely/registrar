@@ -66,5 +66,21 @@
         ));
     });
 
+    $app->delete("/{id}/delete_student", function($id) use ($app) {
+        $student = Student::find($id);
+        $student->deleteOneStudent();
+        return $app['twig']->render('students.html.twig', array(
+            'students' => Student::getAll()
+        ));
+    });
+
+    $app->delete("/{id}/delete_course", function($id) use ($app) {
+        $course = Course::find($id);
+        $course->deleteOneCourse();
+        return $app['twig']->render('courses.html.twig', array(
+            'courses' => Course::getAll()
+        ));
+    });
+
     return $app;
 ?>

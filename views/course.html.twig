@@ -6,7 +6,10 @@
     <body>
         <h2>{{ course.getCourseName }}</h2>
         <h3>{{ course.getCourseNum }}</h3>
-
+        <form action='/{{ course.getId }}/delete_course' method='post'>
+            <input name="_method" type="hidden" value="delete">
+            <button type='submit'>Delete Course</button>
+        </form>
         <a href="/">Home</a>
     </body>
 </html>

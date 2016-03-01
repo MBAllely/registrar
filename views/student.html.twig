@@ -6,8 +6,10 @@
     <body>
         <h2>Student Name: {{ student.getName }}</h2>
         <h3>Enrollment Date: {{ student.getDate }}</h3>
-        <h3>Classes: {{  }}</h3>
-
+        <form action='/{{ student.getId }}/delete_student' method='post'>
+            <input name="_method" type="hidden" value="delete">
+            <button type='submit'>Delete Student</button>
+        </form>
         <a href="/">Home</a>
     </body>
 </html>

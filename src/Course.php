@@ -62,8 +62,8 @@
                 if ($course_id == $search_id) {
                     $found_course = $course;
                 }
-                return $found_course;
             }
+            return $found_course;
         }
 
         function update($new_course_name)

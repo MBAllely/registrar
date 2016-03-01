@@ -37,6 +37,17 @@
         ));
     });
 
+    $app->post("/{id}/add_course", function($id) use ($app) {
+        $student = Student::find($id);
+        $course = Course::find($_POST['id']);
+        $student->addCourse($course);
+        return $app['twig']->render('student.html.twig', array(
+            'student' => $student,
+            'student_courses' => $student->getCourses(),
+            'courses' => Course::getAll()
+        ));
+    });
+
     $app->get("/students", function() use ($app) {
         return $app['twig']->render('students.html.twig', array(
             'students' => Student::getAll()
@@ -63,7 +74,8 @@
         $student = Student::find($id);
         return $app['twig']->render('student.html.twig', array(
             'student' => $student,
-            'courses' => $student->getCourses()
+            'student_courses' => $student->getCourses(),
+            'courses' => Course::getAll()
         ));
     });
 

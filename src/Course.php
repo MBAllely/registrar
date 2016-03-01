@@ -84,7 +84,7 @@
                 JOIN students ON (enrollment.student_id = students.id)
                 WHERE courses.id = {$this->getId()};");
             // $student_id = $query->fetchAll(PDO::FETCH_ASSOC);
-        
+
             $students = array();
             foreach($returned_students as $student) {
                 // $student_id = $student['id'];
@@ -97,7 +97,7 @@
                 $new_student = new Student($name, $date, $id);
                 array_push($students, $new_student);
             }
-                var_dump($students);
+                // var_dump($students);
             return $students;
         }
 

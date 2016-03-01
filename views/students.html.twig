@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <title></title>
+        {% include '/includes/head.html.twig' %}
     </head>
     <body>
-<p>STUDENTS</p>
+        {% if students is not empty %}
+        <p>Here are the students</p>
+            {% for student in students %}
+                <h4><a href="/students/{{ student.getId }}">{{ student.getName }}</a></h4>
+            {% endfor %}
+        {% else %}
+            <p>There are no students yet!</p>
+        {% endif %}
+
+        <form action="/students" method="post">
+            <label for="name">Student name: </label>
+            <input type="text" name="name">
+            <label for="date">Enrollment Date: </label>
+            <input type="date" name="date">
+            <button type="submit">Add student</button>
+        </form>
+        <a href="/">Home</a>
     </body>
 </html>

@@ -37,7 +37,6 @@ class Student
         return $this->id;
     }
 
-
     function save()
     {
         $GLOBALS['DB']->exec("INSERT INTO students (name, date) VALUES ('{$this->getName()}', '{$this->getDate()}');");
@@ -57,6 +56,12 @@ class Student
             array_push($students, $new_student);
         }
         return $students;
+    }
+
+    function update($new_name)
+    {
+        $GLOBALS['DB']->exec("INSERT INTO students SET name = '{$new_name}';");
+        $this->setName($new_name);
     }
 
     static function deleteAll()

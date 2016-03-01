@@ -64,6 +64,19 @@ class Student
         $this->setName($new_name);
     }
 
+    static function find($search_id)
+    {
+        $found_student = null;
+        $students = Student::getAll();
+        foreach($students as $student) {
+            if ($student->getId() == $search_id)
+            {
+                $found_student = $student;
+            }
+        }
+        return $found_student;
+    }
+
     static function deleteAll()
     {
         $GLOBALS['DB']->exec("DELETE FROM students;");

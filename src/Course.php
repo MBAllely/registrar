@@ -53,6 +53,19 @@
             return $courses;
         }
 
+        static function find($search_id)
+        {
+            $found_course = null;
+            $courses = Course::getAll();
+            foreach($courses as $course) {
+                $course_id = $course->getId();
+                if ($course_id == $search_id) {
+                    $found_course = $course;
+                }
+                return $found_course;
+            }
+        }
+
         function update($new_course_name)
         {
             $GLOBALS['DB']->exec("INSERT INTO courses SET course_name = '{$new_course_name}';");

@@ -1,0 +1,4 @@
+SELECT students.* FROM courses
+    JOIN enrollment ON (courses.id = enrollment.course_id)
+    JOIN students ON (enrollment.student.id = students.id)
+    WHERE courses.id = {$this->getId()};

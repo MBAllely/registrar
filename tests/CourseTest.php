@@ -122,21 +122,21 @@
 
         function test_find()
         {
-        $course_name = "Intro to Russian Lit";
-        $id = null;
-        $course_num = "LIT105";
-        $test_course = new Course($course_name, $course_num, $id);
-        $test_course->save();
+            $course_name = "Intro to Russian Lit";
+            $id = null;
+            $course_num = "LIT105";
+            $test_course = new Course($course_name, $course_num, $id);
+            $test_course->save();
 
-        $course_name2 = "Music Theory 205";
-        $id2 = null;
-        $course_num2 = "MUS205";
-        $test_course2 = new Course($course_name2, $course_num2, $id2);
-        $test_course2->save();
+            $course_name2 = "Music Theory 205";
+            $id2 = null;
+            $course_num2 = "MUS205";
+            $test_course2 = new Course($course_name2, $course_num2, $id2);
+            $test_course2->save();
 
-        $result = Course::find($test_course->getId());
+            $result = Course::find($test_course->getId());
 
-        $this->assertEquals($test_course, $result);
+            $this->assertEquals($test_course, $result);
         }
 
         function test_addStudent()

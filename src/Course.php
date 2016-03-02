@@ -83,13 +83,9 @@
                 JOIN enrollment ON (courses.id = enrollment.course_id)
                 JOIN students ON (enrollment.student_id = students.id)
                 WHERE courses.id = {$this->getId()};");
-            // $student_id = $query->fetchAll(PDO::FETCH_ASSOC);
 
             $students = array();
             foreach($returned_students as $student) {
-                // $student_id = $student['id'];
-                // $result = $GLOBALS['DB']->query("SELECT * FROM students WHERE id = {$student_id};");
-                // $returned_student = $result->fetchAll(PDO::FETCH_ASSOC);
 
                 $name = $student['name'];
                 $date = $student['date'];
@@ -97,8 +93,30 @@
                 $new_student = new Student($name, $date, $id);
                 array_push($students, $new_student);
             }
-                // var_dump($students);
             return $students;
+        }
+
+        function addDepartment($department)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO department_courses (department_id, course_id) VALUES ({$department->getId()}, {$this->getId()});");
+        }
+
+        function getDepartments()
+        {
+            $returned_departments = $GLOBALS['DB']->query("SELECT departments.* FROM courses
+                JOIN department_courses ON (courses.id = department_courses.course_id)
+                JOIN departments ON (department_courses.department_id = departments.id)
+                WHERE courses.id = {$this->getId()};");
+
+            $departments = array();
+            foreach($returned_departments as $department) {
+
+                $department_name = $department['department_name'];
+                $id = $department['id'];
+                $new_department = new Department($department_name, $id);
+                array_push($departments, $new_department);
+            }
+            return $departments;
         }
 
         static function deleteAll()
@@ -110,6 +128,7 @@
         {
             $GLOBALS['DB']->exec("DELETE FROM courses WHERE id = {$this->getId()};");
             $GLOBALS['DB']->exec("DELETE FROM enrollment WHERE course_id = {$this->getId()};");
+            $GLOBALS['DB']->exec("DELETE FROM department_courses WHERE course_id = {$this->getId()};");
         }
 
 

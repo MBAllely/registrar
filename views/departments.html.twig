@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% include '/includes/head.html.twig' %}
+    </head>
+    <body>
+        {% if departments is not empty %}
+        <p>Here are the departments</p>
+            {% for department in departments %}
+                <h4><a href="/departments/{{ department.getId }}">{{ department.getDepartmentName }}</a></h4>
+            {% endfor %}
+        {% else %}
+            <p>There are no departments yet!</p>
+        {% endif %}
+
+        <form action="/departments" method="post">
+            <label for="department_name">Department name: </label>
+            <input type="text" name="department_name">
+            <button type="submit">Add department</button>
+        </form>
+        <a href="/">Home</a>
+    </body>
+</html>

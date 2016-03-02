@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% include '/includes/head.html.twig' %}
+    </head>
+    <body>
+        <h2>{{ department.getDepartmentName }}</h2>
+        <h3>Department Courses:</h3>
+        {% if departments is not empty %}
+            <ul>
+                {% for department_course in department_courses %}
+                    <li><a href="/courses/{{ department_course.getId }}">{{ department_course.getName }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>There are no departments yet!</p>
+        {% endif %}
+
+        <form action="/{{ department.getId }}/add_course" method="post">
+            <input type="hidden" name="department_name" value="{{ department.getId }}">
+            <label>Select a course</label>
+            <select name="id" type="text">
+                {% for course in courses %}
+                    <option value="{{ course.getId }}"> {{ course.getCourseName }} </option>
+                {% endfor %}
+            </select>
+            <button type="submit">Add Course</button>
+        </form>
+
+        <h3>Department Students:</h3>
+        <ul>
+            {% for department_student in department_students %}
+                <li><a href="/students/{{ department_student.getId }}">{{ department_student.getName }}</a></li>
+            {% endfor %}
+        </ul>
+        <form action="/{{ department.getId }}/add_student" method="post">
+            <input type="hidden" name="department_name" value="{{ department.getId }}">
+            <label>Select a student</label>
+            <select name="id" type="text">
+                {% for student in students %}
+                    <option value="{{ student.getId }}"> {{ student.getName }} </option>
+                {% endfor %}
+            </select>
+            <button type="submit">Add Student</button>
+        </form>
+        <!--ADD EDIT COURSE FEATURE-->
+        <form action='/{{ department.getId }}/delete_department' method='post'>
+            <input name="_method" type="hidden" value="delete">
+            <button type='submit'>Delete Department</button>
+        </form>
+        <a href="/">Home</a>
+    </body>
+</html>

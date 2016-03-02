@@ -3,12 +3,14 @@ class Student
 {
     private $name;
     private $date;
+    private $department_id;
     private $id;
 
-    function __construct($name, $date, $id = null)
+    function __construct($name, $date, $department_id, $id = null)
     {
         $this->name = $name;
         $this->date = $date;
+        $this->department_id= $department_id;
         $this->id = $id;
     }
 
@@ -32,6 +34,16 @@ class Student
         $this->date = $new_date;
     }
 
+    function getDepartmentId()
+    {
+        return $this->department_id;
+    }
+
+    function setDepartmentId($new_department_id)
+    {
+        $this->department_id = $new_department_id;
+    }
+
     function getId()
     {
         return $this->id;
@@ -39,7 +51,7 @@ class Student
 
     function save()
     {
-        $GLOBALS['DB']->exec("INSERT INTO students (name, date) VALUES ('{$this->getName()}', '{$this->getDate()}');");
+        $GLOBALS['DB']->exec("INSERT INTO students (name, date, department_id) VALUES ('{$this->getName()}', '{$this->getDate()}', {$this->getDepartmentId()});");
         $this->id = $GLOBALS['DB']->lastInsertId();
     }
 
@@ -51,17 +63,19 @@ class Student
         foreach($returned_students as $student) {
             $name = $student['name'];
             $date = $student['date'];
+            $department_id = $student['department_id'];
             $id = $student['id'];
-            $new_student = new Student($name, $date, $id);
+            $new_student = new Student($name, $date, $department_id, $id);
             array_push($students, $new_student);
         }
         return $students;
     }
 
-    function update($new_name)
+    function update($new_name, $new_department_id)
     {
-        $GLOBALS['DB']->exec("INSERT INTO students SET name = '{$new_name}';");
+        $GLOBALS['DB']->exec("INSERT INTO students SET name = '{$new_name}', department_id = {$new_department_id};");
         $this->setName($new_name);
+        $this->setDepartmentId($new_department_id);
     }
 
     static function find($search_id)
@@ -91,9 +105,6 @@ class Student
 
         $courses = [];
         foreach($returned_courses as $course) {
-            // $course_id = $id['course_id'];
-            // $result = $GLOBALS['DB']->query("SELECT * FROM courses WHERE id = {$course_id};");
-            // $returned_course = $result->fetchAll(PDO::FETCH_ASSOC);
 
             $course_name = $course['course_name'];
             $course_num = $course['course_num'];

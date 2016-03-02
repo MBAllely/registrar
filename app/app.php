@@ -2,6 +2,7 @@
     require_once __DIR__."/../vendor/autoload.php";
     require_once __DIR__."/../src/Course.php";
     require_once __DIR__."/../src/Student.php";
+    require_once __DIR__."/../src/Department.php";
 
     $app = new Silex\Application();
 
@@ -28,12 +29,40 @@
         ));
     });
 
+    $app->get("/departments", function() use ($app) {
+        return $app['twig']->render('departments.html.twig', array(
+        'departments' => Department::getAll()
+        ));
+    });
+
+    $app->post("/departments", function() use ($app) {
+        $new_department = new Department($_POST['department_name']);
+        $new_department->save();
+        $departments = Department::getAll();
+        return $app['twig']->render('departments.html.twig', array(
+            'departments' => Department::getAll()
+        ));
+    });
+
+    $app->get("/departments/{id}", function($id) use ($app) {
+        $department = Department::find($id);
+        return $app['twig']->render('department.html.twig', array(
+            'department' => $department,
+            'department_courses' => $department->getCourses(),
+            'courses' => Course::getAll(),
+            'department_students' => $department->getStudents(),
+            'students' => Student::getAll()
+        ));
+    });
+
     $app->get("/courses/{id}", function($id) use ($app) {
         $course = Course::find($id);
+
         return $app['twig']->render('course.html.twig', array(
             'course' => $course,
             'course_students' => $course->getStudents(),
-            'students' => Student::getAll()
+            'students' => Student::getAll(),
+            'departments' => Department::getAll()
         ));
     });
 
@@ -63,7 +92,7 @@
     });
 
     $app->post("/students", function() use ($app) {
-        $new_student = new Student($_POST['name'], $_POST['date']);
+        $new_student = new Student($_POST['name'], $_POST['date'], $_POST['department_id']);
         $new_student->save();
         return $app['twig']->render('students.html.twig', array(
             'students' => Student::getAll()
